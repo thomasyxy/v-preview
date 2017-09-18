@@ -1,5 +1,5 @@
 {
-  "name": "vue-iphone",
+  "name": "v-preview",
   "version": "1.0.0",
   "description": "vue image preview component",
   "author": {
@@ -19,11 +19,11 @@
   "private": false,
   "main": "lib/MPreview.js",
   "license": "MIT",
-  "bugs": "https://github.com/thomasyxy/vue-MPreview/issues/2",
-  "homepage": "https://github.com/thomasyxy/vue-MPreview",
+  "bugs": "https://github.com/thomasyxy/v-preview/issues/2",
+  "homepage": "https://github.com/thomasyxy/v-preview",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thomasyxy/vue-MPreview"
+    "url": "https://github.com/thomasyxy/v-preview"
   },
   "dependencies": {
     "vue": "^2.3.3"

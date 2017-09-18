@@ -4,10 +4,21 @@
 </template>
 
 <script>
+import touch from '../utils/touch'
 export default {
-  name: 'vue-MPreview',
+  name: 'v-preview',
 
-  props: {},
+  props: {
+    img: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    zIndex: {
+      type: [Number, String]
+    }
+  },
 
   data () {
     return {}
