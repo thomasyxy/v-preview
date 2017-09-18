@@ -26,7 +26,7 @@ export default function eventListener (DOM) {
   //记录有坐标信息的事件
   let eventMark = null;
   //单次用户操作结束
-  function actionOver(e){
+  function touchCancel(e){
     isActive = false;
     clearTimeout(longTap);
     clearTimeout(touchDelay);
@@ -34,7 +34,7 @@ export default function eventListener (DOM) {
 
   //断定此次事件为轻击事件
   function isSingleTap(){
-    actionOver();
+    touchCancel();
     EMIT.call(this_touch, 'singleTap', eventMark);
   }
   //触屏开始
@@ -51,13 +51,13 @@ export default function eventListener (DOM) {
     //检测是否为长按
     clearTimeout(longTap);
     longTap = setTimeout(function(){
-      actionOver(e);
+      touchCancel(e);
       //断定此次事件为长按事件
       EMIT.call(this_touch,'longTap',e);
     },500);
   }
   //触屏结束
-  function touchend(e){
+  function touchEnd(e){
     //touchend中，拿不到坐标位置信息，故使用全局保存下数据
     e.plugStartPosition = eventMark.plugStartPosition;
     e.plugTouches = eventMark.touches;
@@ -75,7 +75,7 @@ export default function eventListener (DOM) {
       touchDelay = setTimeout(isSingleTap,190);
     }else{
       clearTimeout(touchDelay);
-      actionOver(e);
+      touchCancel(e);
       //断定此次事件为连续两次轻击事件
       EMIT.call(this_touch,'doubleTap',eventMark);
     }
@@ -83,7 +83,7 @@ export default function eventListener (DOM) {
   }
 
   //手指移动
-  function touchmove(e){
+  function touchMove(e){
     //缓存事件
     eventMark = e;
     //在原生事件基础上记录初始位置（为swipe事件增加参数传递）
@@ -107,24 +107,24 @@ export default function eventListener (DOM) {
       //断定此次事件为轻击事件
       isSingleTap();
     }
-    actionOver(e);
+    touchCancel(e);
   }
   if (supportTouch) {
     DOM.addEventListener('touchstart',touchStart);
-    DOM.addEventListener('touchend',touchend);
-    DOM.addEventListener('touchmove',touchmove);
-    DOM.addEventListener('touchcancel',actionOver);
+    DOM.addEventListener('touchend',touchEnd);
+    DOM.addEventListener('touchmove',touchMove);
+    DOM.addEventListener('touchcancel',touchCancel);
   } else {
     DOM.addEventListener('MSPointerDown',touchStart);
     DOM.addEventListener('pointerdown',touchStart);
 
-    DOM.addEventListener('MSPointerUp',touchend);
-    DOM.addEventListener('pointerup',touchend);
+    DOM.addEventListener('MSPointerUp',touchEnd);
+    DOM.addEventListener('pointerup',touchEnd);
 
     DOM.addEventListener('MSPointerMove',touchmove);
     DOM.addEventListener('pointermove',touchmove);
 
-    DOM.addEventListener('MSPointerCancel',actionOver);
-    DOM.addEventListener('pointercancel',actionOver);
+    DOM.addEventListener('MSPointerCancel',touchCancel);
+    DOM.addEventListener('pointercancel',touchCancel);
   }
 }

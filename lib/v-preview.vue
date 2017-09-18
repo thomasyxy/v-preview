@@ -4,7 +4,7 @@
     <div class="v-preview-container">
       <div class="v-preview-list">
         <div class="v-preview-item" v-for="img in imgs">
-          <img :class="v-preview-img" :src="img" />
+          <img :class="normal ? 'v-preview-normal' : 'v-preview-artwork'" :src="img" />
         </div>
       </div>
     </div>
@@ -29,7 +29,9 @@ export default {
   },
 
   data () {
-    return {}
+    return {
+      normal: true
+    }
   },
 
   computed: {},
@@ -39,8 +41,8 @@ export default {
   mounted: function () {
     let app = document.getElementById('PREVIEW_CONTAINER')
     let appTouch = new touch(app)
-    appTouch.on('longTap', function () {
-      console.log('longTap')
+    appTouch.on('doubleTap', () => {
+      this.normal = !this.normal
     })
   }
 }
@@ -76,10 +78,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: scroll;
+  overflow: auto;
 }
-.v-preview-img {
+.v-preview-normal {
   max-width: 100%;
   max-height: 100%;
+}
+.v-preview-artwork {
+  width: auto;
+  height: auto;
 }
 </style>
