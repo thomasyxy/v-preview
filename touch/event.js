@@ -1,5 +1,9 @@
+import EMIT from './emit'
+import swipeDirection from './direction'
 
-export function eventListener (DOM) {
+const supportTouch = "ontouchend" in document ? true : false;
+
+export default function eventListener (DOM) {
   let this_touch = this;
 
   //轻击开始时间
