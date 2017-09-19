@@ -4,7 +4,11 @@
     <div class="v-preview-container">
       <div class="v-preview-list">
         <div class="v-preview-item" v-for="img in imgs">
-          <img :class="normal ? 'v-preview-normal' : 'v-preview-artwork'" :src="img" />
+          <img
+            :class="normal ? 'v-preview-normal' : 'v-preview-artwork'"
+            :src="img"
+           	v-finger:tap="tap"
+          />
         </div>
       </div>
     </div>
@@ -12,7 +16,11 @@
 </template>
 
 <script>
-import touch from '../touch'
+import Vue from 'vue'
+import AlloyFinger from '../finger/index.js'
+import AlloyFingerVue from '../finger/alloy_finger.vue.js'
+
+Vue.use(AlloyFingerVue, { AlloyFinger: AlloyFinger })
 export default {
   name: 'v-preview',
 
@@ -36,14 +44,12 @@ export default {
 
   computed: {},
 
-  methods: {},
+  methods: {
+		tap: function() { console.log('onTap'); }
+  },
 
   mounted: function () {
     let app = document.getElementById('PREVIEW_CONTAINER')
-    let appTouch = new touch(app)
-    appTouch.on('doubleTap', () => {
-      this.normal = !this.normal
-    })
   }
 }
 </script>
