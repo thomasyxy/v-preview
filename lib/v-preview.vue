@@ -5,9 +5,10 @@
       <div class="v-preview-list">
         <div class="v-preview-item" v-for="img in imgs">
           <img
-            :class="normal ? 'v-preview-normal' : 'v-preview-artwork'"
+            id="v-preview-image"
             :src="img"
            	v-finger:tap="tap"
+            @load="imageLoaded"
           />
         </div>
       </div>
@@ -19,6 +20,8 @@
 import Vue from 'vue'
 import AlloyFinger from '../finger/index.js'
 import AlloyFingerVue from '../finger/alloy_finger.vue.js'
+import Transform from '../utils/transform'
+import To from '../utils/to'
 
 Vue.use(AlloyFingerVue, { AlloyFinger: AlloyFinger })
 export default {
@@ -38,18 +41,33 @@ export default {
 
   data () {
     return {
-      normal: true
     }
   },
 
   computed: {},
 
   methods: {
-		tap: function() { console.log('onTap'); }
+    imageLoaded: function (e) {
+      document.querySelector('#imgBox').style.display = 'block'
+      topPx = window.innerHeight / 2 - (h * window.innerWidth / w) / 2
+      this.style.top = topPx + 'px'
+    },
+    ease: function (x) {
+        return Math.sqrt(1 - Math.pow(x - 1, 2));
+    },
+		tap: function () {
+      console.log('onTap')
+    }
+  },
+
+  create: function () {
+    imageLoaded("#testImg", function(w,h){
+    });
   },
 
   mounted: function () {
-    let app = document.getElementById('PREVIEW_CONTAINER')
+    let img = document.getElementById('v-preview-image')
+    Transform(img)
   }
 }
 </script>
@@ -81,17 +99,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-}
-.v-preview-normal {
-  max-width: 100%;
-  max-height: 100%;
-}
-.v-preview-artwork {
-  width: auto;
-  height: auto;
+  left: 0;
+  top: 0;
 }
 </style>
